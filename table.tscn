@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3 uid="uid://dlsa6v362jklw"]
+
+[ext_resource type="Texture2D" uid="uid://d2e83y83soprt" path="res://Sprite-0001.png" id="1_mt1c3"]
+[ext_resource type="FontFile" uid="uid://c18m04tpiqurs" path="res://minecraft_font.ttf" id="2_beequ"]
+
+[sub_resource type="GDScript" id="GDScript_pqoyn"]
+script/source = "extends Sprite2D
+var occupier:String
+enum status {occupied, unoccupied}
+var currentStatus:status
+var unsorted_list:Array
+var startString = \"[center]\"
+var endString = \"[/center]\"
+
+func _ready():
+	currentStatus = status.unoccupied
+	display(\"\") 
+
+
+
+func display(name:String):
+	$RichTextLabel.text = startString + name + endString
+	occupier = name
+	
+func occupy(name):
+	display(\"[color=black] %s [/color]\" % name)
+	occupier = name
+	currentStatus = status.occupied
+
+func option_load(list:Array):
+	$OptionButton.clear()
+	for i in list:
+		$OptionButton.add_item(i)
+	
+	$OptionButton.selected = -1
+	unsorted_list = list.duplicate()
+
+
+
+func _on_item_selected(index):
+	$OptionButton.selected = -1
+	var name = unsorted_list[index]
+	get_parent().swap_name(name, occupier)
+	occupy(name)
+"
+
+[node name="Sprite2D" type="Sprite2D"]
+texture = ExtResource("1_mt1c3")
+script = SubResource("GDScript_pqoyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = -114.0
+offset_top = -40.0
+offset_right = 115.0
+offset_bottom = 54.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("2_beequ")
+theme_override_font_sizes/normal_font_size = 34
+bbcode_enabled = true
+text = "[center]Abdullah[/center]"
+fit_content = true
+tab_size = 13
+
+[node name="OptionButton" type="OptionButton" parent="."]
+offset_left = 119.0
+offset_top = -39.0
+offset_right = 164.0
+offset_bottom = 15.0
+fit_to_longest_item = false
+
+[connection signal="item_selected" from="OptionButton" to="." method="_on_item_selected"]

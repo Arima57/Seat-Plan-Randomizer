@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Seat Plan Randomizer"
+config/version="1.0.0"
 run/main_scene="res://main.tscn"
+run/disable_stdout=true
+run/disable_stderr=true
 config/features=PackedStringArray("4.2", "Mobile")
+run/max_fps=10
+run/low_processor_mode=true
+run/delta_smoothing=false
 boot_splash/bg_color=Color(0.0588235, 0.0588235, 0.0588235, 1)
 boot_splash/show_image=false
 config/icon="res://Logo_proto.png"
@@ -26,7 +32,9 @@ window/stretch/mode="viewport"
 [dotnet]
 
 project/assembly_name="Seat Plan Randomizer"
+project/assembly_reload_attempts=1
 
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
